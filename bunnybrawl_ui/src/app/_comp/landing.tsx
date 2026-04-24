@@ -53,7 +53,6 @@ function LandingHero({ onNav }) {
             <LandingDivider />
             <LandingStat num="48K" label="Active brawlers" />
             <LandingDivider />
-            <LandingStat num="Season 4" label="Ends in 12d 4h" />
           </div>
         </div>
 

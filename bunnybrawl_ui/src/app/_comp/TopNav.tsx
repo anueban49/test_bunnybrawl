@@ -4,36 +4,34 @@ import Icon from "./Icon";
 import NeonChip from "./NeonChip";
 import PixelAvatar from "./PixelAvatar";
 import BrawlerBunny from "./BrawlerBunny";
-function TopNav({ onNav, active }) {
+import { useDisplay } from "../_providers/DisplayProvider";
+import { Navigators } from "../types";
+function TopNav() {
+  const { active, switchDisplay } = useDisplay();
   const items = [
-    { id: "landing", label: "Arena" },
-    { id: "dashboard", label: "Dashboard" },
-    { id: "quiz", label: "Quick Match" },
-    { id: "solo", label: "Solo Play" },
-    { id: "logbook", label: "Logbook" },
-    { id: "leaderboard", label: "Leaderboard" },
+    { id: "landing", label: "Arena" as Navigators },
+    { id: "dashboard", label: "Dashboard" as Navigators },
+    { id: "quiz", label: "Quick Match" as Navigators },
+    { id: "solo", label: "Solo Play" as Navigators },
+    { id: "logbook", label: "Logbook" as Navigators },
+    { id: "leaderboard", label: "Leaderboard" as Navigators },
   ];
+
   return (
-    <div className="app-topnav">
-      <div
-        className="app-topnav-brand row gap-10"
-        onClick={() => onNav("landing")}
-      >
-        <div className="app-topnav-brand-icon">
-          <BrawlerBunny size={34} expression="ready" glow={false} />
-        </div>
+    <div className="w-full max-h-20 p-5 flex flex-row justify-between items-center">
+      <div className="">
+        <div className="">mascot.logo</div>
         <div>
-          <div className="app-topnav-brand-title">Bunny Brawl</div>
-          <div className="app-topnav-brand-subtitle">SEASON 4</div>
+          <div className="">Bunny Brawl</div>
         </div>
       </div>
 
-      <div className="app-topnav-items">
+      <div className="flex flex-row">
         {items.map((it) => (
           <button
             key={it.id}
             type="button"
-            onClick={() => onNav(it.id)}
+            onClick={() => switchDisplay(it.label)}
             className={`app-topnav-button ${active === it.id ? "app-topnav-button-active" : ""}`}
           >
             {it.label}
@@ -41,7 +39,7 @@ function TopNav({ onNav, active }) {
         ))}
       </div>
 
-      <div className="app-topnav-actions row gap-10">
+      <div className="">
         <NeonChip color="gold">★ 2,480 XP</NeonChip>
         <button
           type="button"

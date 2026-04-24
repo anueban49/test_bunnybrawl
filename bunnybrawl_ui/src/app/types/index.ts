@@ -44,12 +44,15 @@ export type Almanac = {
   book: Book[];
   createdAt: Date;
 };
+export type RankType = "brawler" | "warrior" | "champion" | "master" | "legend";
 export type GameData = {
   id: string;
   level: number;
   xp: number;
   abilities: Skill[];
   logbook: Almanac[];
+  coins: number;
+  rank: RankType;
 };
 
 export type Quiz = {
