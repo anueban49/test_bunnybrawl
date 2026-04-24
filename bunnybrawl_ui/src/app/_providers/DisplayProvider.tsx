@@ -16,14 +16,18 @@ interface DisplayContext {
 export const DisplayContext = createContext<DisplayContext | null>(null);
 
 export const DisplayProvider = ({ children }: { children: ReactNode }) => {
-  const [active, setActive] = useState<Navigators>(() => {
-    if (typeof window === "undefined") return "dashboard";
-    return (localStorage.getItem("page") as Navigators) || "dashboard";
-  });
+  const [active, setActive] = useState<Navigators>("dashboard");
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("page", active);
-  }, [active]);
+    const saved = localStorage.getItem("page") as Navigators | null;
+    if (saved) setActive(saved);
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (hydrated) localStorage.setItem("page", active);
+  }, [active, hydrated]);
 
   const switchDisplay = (active: Navigators) => {
     setActive(active);

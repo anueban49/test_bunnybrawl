@@ -1,9 +1,10 @@
-// Particles.jsx — Particles component
+'use client';
+import { useEffect, useState } from 'react';
 
-import React from 'react';
+function Particles({ count = 30, colors = ['--neon-cyan', '--neon-magenta', '--neon-gold'] }) {
+  const [items, setItems] = useState([]);
 
-function Particles({ count = 30, colors = ['--neon-cyan','--neon-magenta','--neon-gold'] }) {
-  const items = React.useMemo(() => {
+  useEffect(() => {
     const out = [];
     for (let i = 0; i < count; i++) {
       const color = colors[i % colors.length];
@@ -17,21 +18,27 @@ function Particles({ count = 30, colors = ['--neon-cyan','--neon-magenta','--neo
         color,
       });
     }
-    return out;
+    setItems(out);
   }, [count]);
+
+  if (items.length === 0) return <div className="bg-particles" aria-hidden />;
+
   return (
-    <div className="bg-particles">
+    <div className="bg-particles" aria-hidden>
       {items.map(p => (
-        <span key={p.key}
-              style={{
-                left: `${p.left}%`,
-                width: p.size, height: p.size,
-                animationDuration: `${p.dur}s`,
-                animationDelay: `${p.delay}s`,
-                background: `var(${p.color})`,
-                boxShadow: `0 0 8px var(${p.color}), 0 0 2px var(${p.color})`,
-                '--drift': `${p.drift}px`,
-              }} />
+        <span
+          key={p.key}
+          style={{
+            left: `${p.left}%`,
+            width: p.size,
+            height: p.size,
+            animationDuration: `${p.dur}s`,
+            animationDelay: `${p.delay}s`,
+            background: `var(${p.color})`,
+            boxShadow: `0 0 8px var(${p.color}), 0 0 2px var(${p.color})`,
+            '--drift': `${p.drift}px`,
+          }}
+        />
       ))}
     </div>
   );

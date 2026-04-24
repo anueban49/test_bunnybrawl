@@ -16,10 +16,23 @@
   --neon-violet: #9f7bff;
   --win: #5aff6e;
   --danger: #ff5577;
+  --glow-cyan: 0 0 18px rgba(94, 246, 255, 0.5);
   --font-display: "Inter", sans-serif;
   --font-pixel: "Courier New", monospace;
   --font-pixel-mini: "Courier New", monospace;
   --font-hand: "Comic Sans MS", cursive;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(105vh) rotate(720deg);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 * {

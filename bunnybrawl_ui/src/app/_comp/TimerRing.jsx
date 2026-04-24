@@ -1,14 +1,13 @@
-// TimerRing.jsx — countdown ring for quiz and solo play
+import { neonVar } from './neon';
 
 function TimerRing({ pct = 0.7, seconds = 12, size = 80, color = 'cyan' }) {
-  const colorMap = { cyan: 'var(--neon-cyan)', magenta: 'var(--neon-magenta)', gold: 'var(--neon-gold)' };
-  const c = colorMap[color] || colorMap.cyan;
+  const c = neonVar(color);
   return (
     <div
       className="timer-ring"
       style={{
-        '--pct': pct,
-        '--size': `${size}px`,
+        width: size,
+        height: size,
         background: `conic-gradient(${c} ${pct * 360}deg, rgba(255,255,255,.08) 0)`,
       }}
     >

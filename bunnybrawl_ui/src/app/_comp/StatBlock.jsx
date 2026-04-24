@@ -1,14 +1,7 @@
-// StatBlock.jsx — stat display card
+import { neonVar } from './neon';
 
 function StatBlock({ label, value, accent = 'cyan', sub }) {
-  const colorMap = {
-    cyan: 'var(--neon-cyan)',
-    magenta: 'var(--neon-magenta)',
-    gold: 'var(--neon-gold)',
-    lime: 'var(--neon-lime)',
-    violet: 'var(--neon-violet)',
-  };
-  const c = colorMap[accent] || colorMap.cyan;
+  const c = neonVar(accent);
   return (
     <div className="glass px-4 py-3.5 min-w-0">
       <div className="font-pixel-mini text-[9px] tracking-[.15em] text-(--text-mute) uppercase">

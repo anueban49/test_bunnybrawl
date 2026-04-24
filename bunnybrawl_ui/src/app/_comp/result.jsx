@@ -48,11 +48,11 @@ function ResultScreen({ onNav, outcome = 'win' }) {
             className="grid gap-6 items-center mt-9 mx-auto"
             style={{ gridTemplateColumns: '1fr auto 1fr', maxWidth: 820 }}
           >
-            <SideCard you score={8} acc={80} color="cyan" won={win}
+            <SideCard you score={8} acc={80} avgSec={13.2} color="cyan" won={win}
               avatar={{ hair: 'spike', hairColor: '#ffd166', outfit: 'hoodie', outfitColor: '#ff4fd8', accessory: 'glasses' }}
               name="KAI" handle="@kai_q" />
             <div className="font-pixel text-[44px] text-(--text-mute)">VS</div>
-            <SideCard you={false} score={5} acc={50} color="magenta" won={!win}
+            <SideCard you={false} score={5} acc={50} avgSec={14.7} color="magenta" won={!win}
               avatar={{ hair: 'mohawk', hairColor: '#5ef6ff', outfit: 'jacket', outfitColor: '#ff4fd8', accessory: 'visor', effect: 'flame' }}
               name="NOVA" handle="@neon_nova" />
           </div>
@@ -86,7 +86,7 @@ function ResultScreen({ onNav, outcome = 'win' }) {
   );
 }
 
-function SideCard({ you, score, acc, color, won, avatar, name, handle }) {
+function SideCard({ you, score, acc, avgSec, color, won, avatar, name, handle }) {
   const colorMap = {
     cyan:    { c: 'var(--neon-cyan)',    g: '0 0 30px rgba(94,246,255,.3)' },
     magenta: { c: 'var(--neon-magenta)', g: '0 0 30px rgba(255,79,216,.3)' },
@@ -120,7 +120,7 @@ function SideCard({ you, score, acc, color, won, avatar, name, handle }) {
       <div className="font-pixel text-[54px] mt-2.5" style={{ color: c.c, textShadow: `0 0 18px ${c.c}` }}>{score}</div>
       <div className="font-pixel-mini text-[8px] tracking-[.2em] text-(--text-mute) -mt-1">/ 10 CORRECT</div>
       <div className="flex justify-center gap-3 mt-2.5 text-[11px] text-(--text-dim)">
-        <span>ACC {acc}%</span><span>·</span><span>AVG {(12 + Math.random() * 4).toFixed(1)}s</span>
+        <span>ACC {acc}%</span><span>·</span><span>AVG {avgSec.toFixed(1)}s</span>
       </div>
     </div>
   );

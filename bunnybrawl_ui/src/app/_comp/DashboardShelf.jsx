@@ -1,11 +1,7 @@
-// DashboardShelf.jsx — DashboardShelf component
-
 import SceneBG from './SceneBG';
 import TopNav from './TopNav';
 import Eyebrow from './Eyebrow';
-import NeonChip from './NeonChip';
 import StatBlock from './StatBlock';
-import XPBar from './XPBar';
 import MatchRow from './MatchRow';
 import Trophy from './Trophy';
 import Goal from './Goal';
@@ -16,74 +12,79 @@ import { mockUser, mockStats, mockRecentMatches, mockTrophies, mockGoals } from 
 export function DashboardShelf({ onNav }) {
   const user = mockUser;
   const stats = mockStats;
-  const recentMatches = mockRecentMatches;
-  const trophies = mockTrophies;
-  const goals = mockGoals;
 
   return (
     <div className="screen">
-        \
-        
       <SceneBG particleCount={20} />
       <TopNav onNav={onNav} active="dashboard" />
 
-      <div style={{ padding: '32px 40px', height:'calc(100% - 64px)', overflow:'auto' }} className="scroll">
+      <div className="scroll px-10 py-8 h-[calc(100%-64px)] overflow-auto">
         {/* Banner */}
-        <div className="glass" style={{
-          padding: '28px 32px', marginBottom: 22,
-          background: 'linear-gradient(120deg, rgba(94,246,255,.08), rgba(255,79,216,.08))',
-          borderColor: 'rgba(94,246,255,.3)',
-          display:'grid', gridTemplateColumns: '1fr auto', gap: 24, alignItems:'center',
-        }}>
+        <div
+          className="glass grid grid-cols-[1fr_auto] gap-6 items-center mb-5.5 px-8 py-7 border-(--neon-cyan)/30"
+          style={{ background: 'linear-gradient(120deg, rgba(94,246,255,.08), rgba(255,79,216,.08))' }}
+        >
           <div>
             <Eyebrow>◆ HELLO, BRAWLER</Eyebrow>
-            <h1 className="display" style={{ fontSize: 42, marginTop: 6 }}>
-              You're <span style={{ color:'var(--neon-cyan)' }}>3 wins</span> from Diamond tier.
+            <h1 className="display text-[42px] mt-1.5">
+              You're <span className="text-(--neon-cyan)">3 wins</span> from Diamond tier.
             </h1>
-            <div style={{ color:'var(--text-dim)', marginTop: 8, fontSize: 14 }}>
-              <span style={{ fontFamily:'var(--font-hand)', fontSize: 20, color:'var(--neon-gold)' }}>"The harder the battle, the sweeter the victory."</span>
+            <div className="text-(--text-dim) text-sm mt-2">
+              <span className="font-hand text-xl text-(--neon-gold)">
+                "The harder the battle, the sweeter the victory."
+              </span>
             </div>
-            <div className="row gap-10" style={{ marginTop: 16 }}>
-              <button className="btn btn-primary" onClick={() => onNav('quiz')}><Icon name="sword"/> Start Match</button>
-              <button className="btn btn-ghost" onClick={() => onNav('solo')}><Icon name="spark"/> Solo Practice</button>
+            <div className="row gap-2.5 mt-4">
+              <button className="btn btn-primary" onClick={() => onNav('quiz')}>
+                <Icon name="sword" /> Start Match
+              </button>
+              <button className="btn btn-ghost" onClick={() => onNav('solo')}>
+                <Icon name="spark" /> Solo Practice
+              </button>
             </div>
           </div>
-          <div style={{ position:'relative' }}>
+          <div className="relative">
             <BrawlerBunny size={160} expression="cheer" />
           </div>
         </div>
 
         {/* Stats row */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap: 14, marginBottom: 22 }}>
-          <StatBlock label="Level" value={user.level} accent="gold" sub={`XP ${user.xp}/${user.xpMax}`}/>
-          <StatBlock label="Wins" value={stats.wins} accent="cyan" sub="this season"/>
-          <StatBlock label="Accuracy" value={`${stats.accuracy}%`} accent="lime" sub="312 answered"/>
-          <StatBlock label="Rank" value={`#${stats.rank}`} accent="magenta" sub="Diamond III"/>
-          <StatBlock label="Streak" value={`${user.streak}d`} accent="violet" sub="Personal best"/>
+        <div className="grid grid-cols-5 gap-3.5 mb-5.5">
+          <StatBlock label="Level" value={user.level} accent="gold" sub={`XP ${user.xp}/${user.xpMax}`} />
+          <StatBlock label="Wins" value={stats.wins} accent="cyan" sub="this season" />
+          <StatBlock label="Accuracy" value={`${stats.accuracy}%`} accent="lime" sub="312 answered" />
+          <StatBlock label="Rank" value={`#${stats.rank}`} accent="magenta" sub="Diamond III" />
+          <StatBlock label="Streak" value={`${user.streak}d`} accent="violet" sub="Personal best" />
         </div>
 
         {/* Trophy shelf */}
-        <div className="glass" style={{ padding: 24, marginBottom: 22 }}>
-          <div className="row" style={{ justifyContent:'space-between', marginBottom: 16 }}>
+        <div className="glass p-6 mb-5.5">
+          <div className="flex justify-between mb-4">
             <Eyebrow>◆ TROPHY SHELF · 14 / 48</Eyebrow>
-            <span style={{ fontSize: 11, color:'var(--text-mute)' }}>Hover to inspect</span>
+            <span className="text-[11px] text-(--text-mute)">Hover to inspect</span>
           </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(8, 1fr)', gap: 12 }}>
-            {trophies.map((trophy, i) => <Trophy key={i} {...trophy} />)}
+          <div className="grid grid-cols-8 gap-3">
+            {mockTrophies.map((trophy, i) => (
+              <Trophy key={i} {...trophy} />
+            ))}
           </div>
         </div>
 
         {/* Recent + goals */}
-        <div style={{ display:'grid', gridTemplateColumns:'1.3fr 1fr', gap: 22 }}>
-          <div className="glass" style={{ padding: 20 }}>
-            <Eyebrow style={{ marginBottom: 12 }}>◆ RECENT BATTLES</Eyebrow>
+        <div className="grid grid-cols-[1.3fr_1fr] gap-5.5">
+          <div className="glass p-5">
+            <Eyebrow className="mb-3">◆ RECENT BATTLES</Eyebrow>
             <div className="col gap-8">
-              {recentMatches.map((match, i) => <MatchRow key={i} {...match} />)}
+              {mockRecentMatches.map((match, i) => (
+                <MatchRow key={i} {...match} />
+              ))}
             </div>
           </div>
-          <div className="glass" style={{ padding: 20 }}>
-            <Eyebrow style={{ marginBottom: 12 }}>◆ SEASON GOALS</Eyebrow>
-            {goals.map((goal, i) => <Goal key={i} {...goal} />)}
+          <div className="glass p-5">
+            <Eyebrow className="mb-3">◆ SEASON GOALS</Eyebrow>
+            {mockGoals.map((goal, i) => (
+              <Goal key={i} {...goal} />
+            ))}
           </div>
         </div>
       </div>

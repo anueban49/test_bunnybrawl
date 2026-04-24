@@ -1,27 +1,26 @@
-// Trophy.jsx — Trophy component
-
 import Icon from './Icon';
+import { neonVar, neonRgba } from './neon';
 
 function Trophy({ name, icon, color, got }) {
-  const map = {
-    cyan:'var(--neon-cyan)', magenta:'var(--neon-magenta)', gold:'var(--neon-gold)',
-    lime:'var(--neon-lime)', violet:'var(--neon-violet)', muted:'var(--text-mute)',
-  };
-  const c = map[color];
+  const c = neonVar(color);
+  const rgba = (a) => neonRgba(color, a);
+
   return (
-    <div style={{ textAlign:'center' }}>
-      <div style={{
-        width:'100%', aspectRatio:'1', borderRadius: 12,
-        background: got ? `linear-gradient(135deg, ${c}33, ${c}0c)` : 'rgba(255,255,255,.02)',
-        border: `1px solid ${got ? c + '66' : 'var(--border)'}`,
-        display:'grid', placeItems:'center', color: got ? c : 'var(--text-mute)',
-        boxShadow: got ? `0 0 18px ${c}33` : 'none',
-        filter: got ? 'none' : 'grayscale(.5)',
-      }}>
+    <div className="text-center">
+      <div
+        className={`w-full aspect-square rounded-xl grid place-items-center ${got ? '' : 'grayscale-[.5]'}`}
+        style={{
+          background: got ? `linear-gradient(135deg, ${rgba(0.2)}, ${rgba(0.05)})` : 'rgba(255,255,255,.02)',
+          border: `1px solid ${got ? rgba(0.4) : 'var(--border)'}`,
+          color: got ? c : 'var(--text-mute)',
+          boxShadow: got ? `0 0 18px ${rgba(0.2)}` : 'none',
+        }}
+      >
         <Icon name={icon} size={22} />
       </div>
-      <div style={{ fontFamily:'var(--font-pixel-mini)', fontSize: 7, letterSpacing:'.1em',
-                    marginTop: 6, color: got ? 'var(--text-dim)' : 'var(--text-mute)' }}>
+      <div
+        className={`font-pixel-mini text-[7px] tracking-widest mt-1.5 ${got ? 'text-(--text-dim)' : 'text-(--text-mute)'}`}
+      >
         {name}
       </div>
     </div>
