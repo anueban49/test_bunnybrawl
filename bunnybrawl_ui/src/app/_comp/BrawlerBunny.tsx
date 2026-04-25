@@ -1,35 +1,41 @@
-// BrawlerBunny.jsx — BrawlerBunny component
+// BrawlerBunny — the app mascot. Pre-authored 32×32 pixel art with 5 expression poses.
+// SVG markup left as-is; only the React signature got typed.
+import type { ReactNode } from "react";
+import type { BunnyExpression } from "./types";
 
-function BrawlerBunny({ size = 120, expression = 'ready', glow = true, aura }) {
-  // Palette
-  const FUR = '#f4e4cc';
-  const FUR_SHADE = '#d9c2a4';
-  const FUR_DARK = '#a88b6b';
-  const INNER_EAR = '#e8a3bf';
-  const EYE = '#1a1024';
-  const NOSE = '#d36b8a';
-  const BAND = '#e53950';
-  const BAND_SHADE = '#b02132';
-  const ROBE = '#3b2f7a';
-  const ROBE_SHADE = '#241a54';
-  const ROBE_TRIM = '#ffd166';
-  const WHITE = '#ffffff';
-  const T = 'none';
+type Props = {
+  size?: number;
+  expression?: BunnyExpression;
+  glow?: boolean;
+  aura?: ReactNode;
+};
 
-  // 32x32 grid. Expression toggles change the face + pose.
-  // Use a compact helper: rect(x,y,w,h,fill)
-  const px = (x, y, w, h, fill) => (
+function BrawlerBunny({ size = 120, expression = "ready", glow = true, aura }: Props) {
+  const FUR = "#f4e4cc";
+  const FUR_SHADE = "#d9c2a4";
+  const FUR_DARK = "#a88b6b";
+  const INNER_EAR = "#e8a3bf";
+  const EYE = "#1a1024";
+  const NOSE = "#d36b8a";
+  const BAND = "#e53950";
+  const BAND_SHADE = "#b02132";
+  const ROBE = "#3b2f7a";
+  const ROBE_SHADE = "#241a54";
+  const ROBE_TRIM = "#ffd166";
+  const WHITE = "#ffffff";
+
+  const px = (x: number, y: number, w: number, h: number, fill: string) => (
     <rect key={`${x}-${y}-${w}-${h}-${fill}`} x={x} y={y} width={w} height={h} fill={fill} />
   );
 
-  const eyeOpen = (cx) => (<>
+  const eyeOpen = (cx: number) => (<>
     {px(cx, 11, 2, 3, EYE)}
     {px(cx, 11, 1, 1, WHITE)}
   </>);
-  const eyeClosed = (cx) => px(cx, 12, 2, 1, EYE);
-  const eyeStar = (cx) => (<>
+  const eyeClosed = (cx: number) => px(cx, 12, 2, 1, EYE);
+  const eyeStar = (cx: number) => (<>
     {px(cx, 11, 2, 3, EYE)}
-    {px(cx, 11, 1, 1, '#ffd166')}
+    {px(cx, 11, 1, 1, "#ffd166")}
   </>);
 
   // Mouth variants
@@ -37,17 +43,19 @@ function BrawlerBunny({ size = 120, expression = 'ready', glow = true, aura }) {
   const mouthOpen = (<>{px(14, 16, 4, 2, EYE)}{px(15, 17, 2, 1, '#ff4fd8')}</>);
   const mouthFlat = px(14, 16, 4, 1, EYE);
 
-  let leftEye, rightEye, mouth;
-  if (expression === 'cheer') { leftEye = eyeStar(11); rightEye = eyeStar(19); mouth = mouthOpen; }
-  else if (expression === 'rest') { leftEye = eyeClosed(11); rightEye = eyeClosed(19); mouth = mouthSmile; }
-  else if (expression === 'run') { leftEye = eyeOpen(11); rightEye = eyeOpen(19); mouth = mouthOpen; }
-  else if (expression === 'think') { leftEye = eyeClosed(11); rightEye = eyeOpen(19); mouth = mouthFlat; }
-  else { leftEye = eyeOpen(11); rightEye = eyeOpen(19); mouth = mouthSmile; }
+  let leftEye: ReactNode, rightEye: ReactNode, mouth: ReactNode;
+  if (expression === "cheer")      { leftEye = eyeStar(11);   rightEye = eyeStar(19);   mouth = mouthOpen;  }
+  else if (expression === "rest")  { leftEye = eyeClosed(11); rightEye = eyeClosed(19); mouth = mouthSmile; }
+  else if (expression === "run")   { leftEye = eyeOpen(11);   rightEye = eyeOpen(19);   mouth = mouthOpen;  }
+  else if (expression === "think") { leftEye = eyeClosed(11); rightEye = eyeOpen(19);   mouth = mouthFlat;  }
+  else                              { leftEye = eyeOpen(11);   rightEye = eyeOpen(19);   mouth = mouthSmile; }
+
+  const glowClass = glow
+    ? "[filter:drop-shadow(0_0_10px_rgba(94,246,255,.45))_drop-shadow(0_0_24px_rgba(255,79,216,.3))]"
+    : "";
 
   return (
-    <svg className="pixel" width={size} height={size} viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
-         style={{ filter: glow ? 'drop-shadow(0 0 10px rgba(94,246,255,.45)) drop-shadow(0 0 24px rgba(255,79,216,.3))' : 'none',
-                  overflow: 'visible' }}>
+    <svg className={`pixel overflow-visible ${glowClass}`} width={size} height={size} viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
       {aura}
       {/* Ears (long, upright) */}
       {px(8, 1, 3, 8, FUR)}

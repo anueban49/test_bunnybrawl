@@ -1,70 +1,81 @@
-// landing.jsx — Landing page (Hero variation)
+// LandingHero — marketing/hero screen shown as the "Arena" tab.
+"use client";
 
-import SceneBG from './SceneBG';
-import TopNav from './TopNav';
-import BrawlerBunny from './BrawlerBunny';
-import Icon from './Icon';
-import Eyebrow from './Eyebrow';
+import SceneBG from "./SceneBG";
+import TopNav from "./TopNav";
+import BrawlerBunny from "./BrawlerBunny";
+import Icon from "./Icon";
+import Eyebrow from "./Eyebrow";
+import Button from "./Button";
+import Glass from "./Glass";
+import { useDisplay } from "../_providers/DisplayProvider";
+import type { BunnyExpression } from "./types";
 
-function LandingHero({ onNav }) {
+type HudColor = "cyan" | "gold" | "magenta";
+const HUD_BORDER: Record<HudColor, string> = {
+  cyan:    "border-(--neon-cyan)/50",
+  gold:    "border-(--neon-gold)/50",
+  magenta: "border-(--neon-magenta)/50",
+};
+
+function LandingHero() {
+  const { switchDisplay } = useDisplay();
+
   return (
-    <div className="screen flex flex-col">
+    <div className="min-h-screen relative flex flex-col">
       <SceneBG particleCount={48} />
-      <TopNav onNav={onNav} active="landing" />
+      <TopNav />
 
-      <div className="flex-1 grid place-items-center relative px-15 pt-5 pb-15">
-        <div className="text-center max-w-225 z-2">
+      <div className="flex-1 grid place-items-center relative px-16 py-8">
+        <div className="text-center max-w-5xl relative z-[2]">
           <Eyebrow className="mb-5">◆ Season 4 · Live Now · 12,482 online</Eyebrow>
 
-          <div className="inline-flex items-center gap-6 mb-4.5">
-            <div style={{ filter: 'drop-shadow(0 0 30px rgba(255,79,216,.5))' }}>
-              <BrawlerBunny size={160} expression="cheer" />
-            </div>
+          <div className="inline-flex items-center gap-6 mb-4 [filter:drop-shadow(0_0_30px_rgba(255,79,216,.5))]">
+            <BrawlerBunny size={160} expression="cheer" />
           </div>
 
-          <h1 className="display mt-2.5" style={{ fontSize: 92, lineHeight: 0.92 }}>
+          <h1 className="font-bold leading-[0.92] text-[92px] -tracking-[.04em]">
             <span className="text-(--text)">Compete. </span>
-            <span style={{
-              background: 'linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta))',
-              WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent',
-              textShadow: '0 0 32px rgba(94,246,255,.3)',
-            }}>Learn.</span>
-            <span style={{ color: 'var(--neon-gold)', textShadow: '0 0 24px rgba(255,209,102,.4)' }}> Win.</span>
+            <span className="bg-gradient-to-br from-(--neon-cyan) to-(--neon-magenta) bg-clip-text text-transparent [text-shadow:0_0_32px_rgba(94,246,255,.3)]">
+              Learn.
+            </span>
+            <span className="text-(--neon-gold) [text-shadow:0_0_24px_rgba(255,209,102,.4)]"> Win.</span>
           </h1>
 
-          <p className="text-[20px] text-(--text-dim) max-w-155 mx-auto mt-5.5 mb-8 leading-relaxed">
+          <p className="text-xl text-(--text-dim) max-w-xl mx-auto mt-6 mb-8 leading-relaxed">
             Challenge other students, sharpen your edge, and level up. The harder the battle, the sweeter the victory.
           </p>
 
-          <div className="row gap-14 justify-center">
-            <button className="btn btn-primary" onClick={() => onNav('quiz')}>
+          <div className="flex items-center gap-3 justify-center">
+            <Button variant="primary" onClick={() => switchDisplay("quiz")}>
               <Icon name="sword" /> Start Game
-            </button>
-            <button className="btn btn-magenta" onClick={() => onNav('quiz')}>
+            </Button>
+            <Button variant="magenta" onClick={() => switchDisplay("quiz")}>
               <Icon name="users" /> Join Match
-            </button>
-            <button className="btn btn-ghost" onClick={() => onNav('solo')}>
+            </Button>
+            <Button variant="ghost" onClick={() => switchDisplay("solo")}>
               <Icon name="spark" /> Solo Play
-            </button>
+            </Button>
           </div>
 
-          <div className="row gap-28 justify-center mt-12.5 text-(--text-mute) text-[13px]">
+          <div className="flex items-center gap-10 justify-center mt-12 text-(--text-mute) text-[13px]">
             <LandingStat num="1.2M" label="Matches / week" />
             <LandingDivider />
             <LandingStat num="48K" label="Active brawlers" />
             <LandingDivider />
+            <LandingStat num="Season 4" label="Ends in 12d 4h" />
           </div>
         </div>
 
-        <FloatingHudCard style={{ top: 90, left: 60 }}    label="LIVE MATCH" title="AP Bio · Round 3" bunnyExp="run"   color="cyan" />
-        <FloatingHudCard style={{ top: 120, right: 50 }}  label="RANK UP"    title="+42 XP earned"   bunnyExp="cheer" color="gold" />
-        <FloatingHudCard style={{ bottom: 90, left: 80 }} label="STREAK"     title="7 days strong"   bunnyExp="ready" color="magenta" />
+        <FloatingHud className="top-22 left-14"   label="LIVE MATCH" title="AP Bio · Round 3" bunnyExp="run"   color="cyan"    />
+        <FloatingHud className="top-28 right-12"  label="RANK UP"    title="+42 XP earned"   bunnyExp="cheer" color="gold"    />
+        <FloatingHud className="bottom-22 left-20" label="STREAK"    title="7 days strong"   bunnyExp="ready" color="magenta" />
       </div>
     </div>
   );
 }
 
-function LandingStat({ num, label }) {
+function LandingStat({ num, label }: { num: string; label: string }) {
   return (
     <div>
       <div className="font-pixel text-[22px] text-(--neon-cyan)">{num}</div>
@@ -77,24 +88,29 @@ function LandingDivider() {
   return <div className="w-px h-7 bg-(--border)" />;
 }
 
-function FloatingHudCard({ style, label, title, bunnyExp, color }) {
-  const colorMap = { cyan: 'rgba(94,246,255,.5)', magenta: 'rgba(255,79,216,.5)', gold: 'rgba(255,209,102,.5)' };
+function FloatingHud({
+  className,
+  label,
+  title,
+  bunnyExp,
+  color,
+}: {
+  className: string;
+  label: string;
+  title: string;
+  bunnyExp: BunnyExpression;
+  color: HudColor;
+}) {
   return (
-    <div
-      className="glass bob absolute flex items-center gap-2.5 px-3.5 py-2.5"
-      style={{ borderColor: colorMap[color], ...style }}
-    >
-      <div
-        className="w-8.5 h-8.5 rounded-lg overflow-hidden grid place-items-center shrink-0"
-        style={{ background: 'linear-gradient(135deg, var(--bg-2), var(--bg-1))' }}
-      >
+    <Glass className={`absolute flex items-center gap-2.5 px-3.5 py-2.5 animate-[bob_3s_ease-in-out_infinite] ${HUD_BORDER[color]} ${className}`}>
+      <div className="w-8 h-8 rounded-lg overflow-hidden grid place-items-center shrink-0 bg-gradient-to-br from-(--bg-2) to-(--bg-1)">
         <BrawlerBunny size={32} expression={bunnyExp} glow={false} />
       </div>
       <div>
         <div className="font-pixel-mini text-[8px] tracking-[.15em] text-(--text-mute)">{label}</div>
         <div className="text-[13px] font-semibold">{title}</div>
       </div>
-    </div>
+    </Glass>
   );
 }
 

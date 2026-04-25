@@ -1,4 +1,5 @@
 "use client";
+// page.tsx — root router. Picks the screen component based on DisplayProvider state.
 import { useDisplay } from "./_providers/DisplayProvider";
 import DashboardCommand from "./_comp/DashboardCommand";
 import LandingHero from "./_comp/landing";
@@ -9,29 +10,20 @@ import Leaderboard from "./_comp/leaderboard";
 import ResultScreen from "./_comp/result";
 import AvatarCustomize from "./_comp/avatar";
 
-const RenderContent = () => {
-  const { active, switchDisplay } = useDisplay();
+function RenderContent() {
+  const { active } = useDisplay();
   switch (active) {
-    case "landing":
-      return <LandingHero onNav={switchDisplay} />;
-    case "dashboard":
-      return <DashboardCommand onNav={switchDisplay} />;
-    case "quiz":
-      return <QuizBattle onNav={switchDisplay} />;
-    case "solo":
-      return <SoloPlay onNav={switchDisplay} />;
-    case "leaderboard":
-      return <Leaderboard onNav={switchDisplay} />;
-    case "logbook":
-      return <Logbook onNav={switchDisplay} />;
-    case "avatar":
-      return <AvatarCustomize onNav={switchDisplay} />;
-    case "result":
-      return <ResultScreen onNav={switchDisplay} />;
-    default:
-      return <DashboardCommand onNav={switchDisplay} />;
+    case "landing":     return <LandingHero />;
+    case "dashboard":   return <DashboardCommand />;
+    case "quiz":        return <QuizBattle />;
+    case "solo":        return <SoloPlay />;
+    case "leaderboard": return <Leaderboard />;
+    case "logbook":     return <Logbook />;
+    case "avatar":      return <AvatarCustomize />;
+    case "result":      return <ResultScreen />;
+    default:            return <DashboardCommand />;
   }
-};
+}
 
 export default function Page() {
   return <RenderContent />;

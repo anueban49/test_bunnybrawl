@@ -1,6 +1,8 @@
-import XPBar from './XPBar';
+// Goal — one row in "Season goals" (title + progress + sub-label).
+import XPBar from "./XPBar";
+import type { MockGoal } from "../mocks/goals";
 
-function Goal({ title, sub, pct }) {
+function Goal({ title, sub, pct }: MockGoal) {
   return (
     <div className="mb-3.5">
       <div className="flex justify-between mb-1">

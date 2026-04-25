@@ -1,24 +1,27 @@
-// PixelAvatar.jsx — PixelAvatar component
+// PixelAvatar — 32×32 customisable pixel portrait (hair/skin/outfit/accessory/effect).
+// SVG markup is intentionally preserved verbatim (will be swapped for a sprite later).
+import type { AvatarConfig } from "./types";
+
+type Props = AvatarConfig & { size?: number };
 
 function PixelAvatar({
   size = 120,
-  hair = 'spike',       // 'spike' | 'bob' | 'buzz' | 'long' | 'mohawk'
-  hairColor = '#5ef6ff',
-  skin = '#f2c7a5',
-  outfit = 'hoodie',    // 'hoodie' | 'tee' | 'jacket' | 'robe'
-  outfitColor = '#ff4fd8',
-  accessory = 'none',   // 'none' | 'glasses' | 'visor' | 'headset' | 'crown'
-  effect = 'none',      // 'none' | 'sparkle' | 'flame' | 'electric'
-  bg,                   // optional color chip behind
-}) {
-  const px = (x, y, w, h, fill) => (
+  hair = "spike",
+  hairColor = "#5ef6ff",
+  skin = "#f2c7a5",
+  outfit = "hoodie",
+  outfitColor = "#ff4fd8",
+  accessory = "none",
+  effect = "none",
+  bg,
+}: Props) {
+  const px = (x: number, y: number, w: number, h: number, fill: string) => (
     <rect key={`${x}${y}${w}${h}${fill}`} x={x} y={y} width={w} height={h} fill={fill} />
   );
-  const shade = (c) => {
-    // rough darken via mix
+  const shade = (c: string) => {
     const m = c.match(/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
     if (!m) return c;
-    const d = (h) => Math.max(0, parseInt(h, 16) - 50).toString(16).padStart(2, '0');
+    const d = (h: string) => Math.max(0, parseInt(h, 16) - 50).toString(16).padStart(2, "0");
     return `#${d(m[1])}${d(m[2])}${d(m[3])}`;
   };
 
@@ -26,8 +29,7 @@ function PixelAvatar({
   const outfitSh = shade(outfitColor);
 
   return (
-    <svg className="pixel" width={size} height={size} viewBox="0 0 32 32"
-         style={{ overflow: 'visible' }}>
+    <svg className="pixel overflow-visible" width={size} height={size} viewBox="0 0 32 32">
       {bg && <rect x="0" y="0" width="32" height="32" fill={bg} rx="2" />}
 
       {/* Neck */}
