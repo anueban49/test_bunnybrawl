@@ -1,4 +1,4 @@
-import "./global.css";
+import "./globals.css";
 import { LangProvider } from "./_providers/LangProvider";
 import { ThemeProvider } from "./_providers/ThemeProvider";
 import { DisplayProvider } from "./_providers/DisplayProvider";

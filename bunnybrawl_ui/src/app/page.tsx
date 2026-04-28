@@ -11,7 +11,7 @@ import ResultScreen from "./_comp/result";
 import AvatarCustomize from "./_comp/avatar";
 
 function RenderContent() {
-  const { active } = useDisplay();
+  const { active, switchDisplay } = useDisplay();
   switch (active) {
     case "landing":     return <LandingHero />;
     case "dashboard":   return <DashboardCommand />;
@@ -19,7 +19,7 @@ function RenderContent() {
     case "solo":        return <SoloPlay />;
     case "leaderboard": return <Leaderboard />;
     case "logbook":     return <Logbook />;
-    case "avatar":      return <AvatarCustomize />;
+    case "avatar":      return <AvatarCustomize onNav={switchDisplay} />;
     case "result":      return <ResultScreen />;
     default:            return <DashboardCommand />;
   }

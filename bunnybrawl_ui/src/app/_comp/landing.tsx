@@ -10,6 +10,7 @@ import Button from "./Button";
 import Glass from "./Glass";
 import { useDisplay } from "../_providers/DisplayProvider";
 import type { BunnyExpression } from "./types";
+import { Mascot, MascotRun } from "../assets/Mascot";
 
 type HudColor = "cyan" | "gold" | "magenta";
 const HUD_BORDER: Record<HudColor, string> = {
@@ -31,7 +32,8 @@ function LandingHero() {
           <Eyebrow className="mb-5">◆ Season 4 · Live Now · 12,482 online</Eyebrow>
 
           <div className="inline-flex items-center gap-6 mb-4 [filter:drop-shadow(0_0_30px_rgba(255,79,216,.5))]">
-            <BrawlerBunny size={160} expression="cheer" />
+            <Mascot/>
+            <MascotRun/>
           </div>
 
           <h1 className="font-bold leading-[0.92] text-[92px] -tracking-[.04em]">

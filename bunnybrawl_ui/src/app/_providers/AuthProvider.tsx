@@ -19,14 +19,50 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User>({
+    id: 'guest',
+    username: 'Bunny Brawler',
+    email: 'guest@bunnybrawl.io',
+    gameData: {
+      id: 'guest-game',
+      level: 1,
+      xp: 0,
+      abilities: ['foresight'],
+      logbook: [],
+      coins: 0,
+      rank: 'brawler',
+    },
+    joinedAt: new Date(),
+    lastSeen: new Date(),
+  });
 
   const register = async () => {
     try {
-        
+      // no-op for now
     } catch (e) {
       console.log(e);
     }
   };
-  return <AuthContext.Provider value={{}}>{children}</AuthContext.Provider>;
+
+  const login = async () => {
+    try {
+      // no-op for now
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      // no-op for now
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  return (
+    <AuthContext.Provider value={{ register, login, logout, user }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

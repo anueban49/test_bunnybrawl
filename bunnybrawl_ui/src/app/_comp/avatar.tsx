@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import type { AvatarConfig, HairStyle, OutfitStyle, Accessory, Effect } from './types';
 import SceneBG from './SceneBG';
 import TopNav from './TopNav';
 import PixelAvatar from './PixelAvatar';
@@ -57,7 +58,7 @@ function SwatchRow({ colors, active, onPick }) {
 }
 
 function AvatarCustomize({ onNav }) {
-  const [state, setState] = useState({
+  const [state, setState] = useState<AvatarConfig>({
     hair: 'spike',
     hairColor: '#5ef6ff',
     skin: '#f2c7a5',
@@ -67,16 +68,17 @@ function AvatarCustomize({ onNav }) {
     effect: 'sparkle',
   });
 
-  const [tab, setTab] = useState('hair');
-  const set = (k, v) => setState(s => ({ ...s, [k]: v }));
+  const [tab, setTab] = useState<'hair'|'body'|'outfit'|'extras'>('hair');
+  const set = <K extends keyof AvatarConfig>(key: K, value: AvatarConfig[K]) =>
+    setState((s) => ({ ...s, [key]: value }));
 
-  const hairOptions    = ['spike', 'bob', 'buzz', 'long', 'mohawk'];
-  const hairColors     = ['#5ef6ff','#ff4fd8','#ffd166','#b6ff6e','#9f7bff','#ff9566','#1a1024','#f4e4cc'];
-  const skinColors     = ['#f9dcc0','#f2c7a5','#e0a888','#c18867','#8a5a3d','#5a3d2a'];
-  const outfitOptions  = ['hoodie', 'tee', 'jacket', 'robe'];
-  const outfitColors   = ['#ff4fd8','#5ef6ff','#ffd166','#b6ff6e','#9f7bff','#ff9566','#3b2f7a','#e53950'];
-  const accOptions     = ['glasses', 'visor', 'headset', 'crown'];
-  const effectOptions  = ['sparkle', 'flame', 'none'];
+  const hairOptions: HairStyle[] = ['spike', 'bob', 'buzz', 'long', 'mohawk'];
+  const hairColors = ['#5ef6ff', '#ff4fd8', '#ffd166', '#b6ff6e', '#9f7bff', '#ff9566', '#1a1024', '#f4e4cc'];
+  const skinColors = ['#f9dcc0', '#f2c7a5', '#e0a888', '#c18867', '#8a5a3d', '#5a3d2a'];
+  const outfitOptions: OutfitStyle[] = ['hoodie', 'tee', 'jacket', 'robe'];
+  const outfitColors = ['#ff4fd8', '#5ef6ff', '#ffd166', '#b6ff6e', '#9f7bff', '#ff9566', '#3b2f7a', '#e53950'];
+  const accOptions: Accessory[] = ['glasses', 'visor', 'headset', 'crown'];
+  const effectOptions: (Effect | 'none')[] = ['sparkle', 'flame', 'none'];
 
   return (
     <div className="screen">
@@ -141,7 +143,7 @@ function AvatarCustomize({ onNav }) {
             className="flex p-1 rounded-lg border border-(--border)"
             style={{ background: 'rgba(0,0,0,.25)' }}
           >
-            {['hair','body','outfit','extras'].map(t => (
+            {( ['hair','body','outfit','extras'] as const ).map(t => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
@@ -204,7 +206,7 @@ function AvatarCustomize({ onNav }) {
                 )} />
                 <PanelLabel className="mt-4">EFFECT</PanelLabel>
                 <OptionGrid items={effectOptions} cols={3} render={v => (
-                  <OptionCard key={v} active={(state.effect || 'none') === v} onClick={() => set('effect', v === 'none' ? '' : v)} label={v}>
+                  <OptionCard key={v} active={(state.effect || 'none') === v} onClick={() => set('effect', v === 'none' ? undefined : v)} label={v}>
                     <PixelAvatar size={70} {...state} effect={v === 'none' ? undefined : v} />
                   </OptionCard>
                 )} />

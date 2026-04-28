@@ -11,6 +11,11 @@ import type { Navigators } from "../types";
 
 type Item = { id: Navigators; label: string };
 
+type TopNavProps = {
+  onNav?: (to: Navigators) => void;
+  active?: Navigators;
+};
+
 const ITEMS: Item[] = [
   { id: "landing",     label: "Arena" },
   { id: "dashboard",   label: "Dashboard" },
@@ -20,14 +25,16 @@ const ITEMS: Item[] = [
   { id: "leaderboard", label: "Leaderboard" },
 ];
 
-function TopNav() {
-  const { active, switchDisplay } = useDisplay();
+function TopNav({ onNav, active: activeProp }: TopNavProps) {
+  const { active: activeState, switchDisplay } = useDisplay();
+  const active = activeProp ?? activeState;
+  const navigate = onNav ?? switchDisplay;
 
   return (
     <div className="relative z-5 h-16 flex items-center px-7 border-b border-(--border) bg-gradient-to-b from-[rgba(20,20,46,.6)] to-transparent backdrop-blur-md">
       <button
         type="button"
-        onClick={() => switchDisplay("landing")}
+        onClick={() => navigate("landing")}
         className="flex items-center gap-2.5 cursor-pointer bg-transparent border-none p-0"
       >
         <div className="w-10 h-10 rounded-[10px] grid place-items-center bg-gradient-to-br from-(--neon-cyan) to-(--neon-magenta) shadow-[0_0_18px_rgba(94,246,255,.25)]">
@@ -46,7 +53,7 @@ function TopNav() {
             <button
               key={it.id}
               type="button"
-              onClick={() => switchDisplay(it.id)}
+              onClick={() => navigate(it.id)}
               className={`font-display text-[13px] font-semibold px-3.5 py-1.5 rounded-lg border cursor-pointer transition-all hover:bg-white/[.08] ${
                 on
                   ? "bg-(--neon-cyan)/10 text-(--neon-cyan) border-(--neon-cyan)/30"

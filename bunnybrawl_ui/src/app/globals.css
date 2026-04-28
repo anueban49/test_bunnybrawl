@@ -1,4 +1,3 @@
-/* global.css — theme tokens + keyframes only. Everything else is Tailwind. */
 @import "tailwindcss";
 
 :root {
@@ -30,7 +29,6 @@
   --font-hand: "Comic Sans MS", cursive;
 }
 
-html,
 body {
   margin: 0;
   padding: 0;
@@ -68,4 +66,28 @@ body {
 }
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+.mascot {
+  width: 96px;           /* single frame width */
+  height: 96px;          /* single frame height */
+  background-image: url('/mascot/bunny_cheer.png');
+  background-repeat: no-repeat;
+  animation: play 2s steps(20) infinite;  
+}
+
+.mascotRun {
+  width: 128px;
+  height: 128px;
+  background-image: url('/mascot/bunny_run.png');
+  background-repeat: no-repeat;
+  animation: playRun 1s steps(10) infinite;
+}
+@keyframes play {
+  from { background-position: 0px; }
+  to   { background-position: -1920px; } /* 64px × 11 frames */
+}
+@keyframes playRun {
+  from { background-position: 0px; }
+  to   { background-position: -1280px; } /* 64px × 11 frames */
 }
