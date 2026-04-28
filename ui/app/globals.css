@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+:root {
+  --bg-1: #333236;
+  --bg-2: #1a1a3a;
+  --border: rgba(255, 255, 255, 0.1);
+  --text: #ffffff;
+  --text-dim: #cccccc;
+  --text-mute: #888888;
+  --neon-cyan: #5ef6ff;
+  --neon-magenta: #ff4fd8;
+  --neon-gold: #ffd166;
+  --neon-lime: #b6ff6e;
+  --neon-violet: #9f7bff;
+  --win: #5aff6e;
+  --danger: #ff5577;
+
+  --font-display: "Inter", sans-serif;
+  --font-pixel: "Courier New", monospace;
+  --font-pixel-mini: "Courier New", monospace;
+  --font-hand: "Comic Sans MS", cursive;
+}
+
+/* Register the custom font families with Tailwind v4 so `font-pixel`,
+   `font-pixel-mini`, and `font-hand` become real utility classes. */
+@theme {
+  --font-pixel: "Courier New", monospace;
+  --font-pixel-mini: "Courier New", monospace;
+  --font-hand: "Comic Sans MS", cursive;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-display);
+  background: var(--bg-1);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* crisp-edge rendering for the SVG pixel art (no Tailwind equivalent) */
+.pixel {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+@keyframes float {
+  to {
+    transform: translateY(-100vh) translateX(var(--drift, 0px));
+    opacity: 0;
+  }
+}
+@keyframes scan {
+  to { transform: translateY(100vh); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%     { transform: translateY(-5px); }
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+@keyframes fall {
+  to { transform: translateY(105vh) rotate(720deg); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.mascot {
+  width: 96px;           /* single frame width */
+  height: 96px;          /* single frame height */
+  background-image: url('/mascot/bunny_cheer.png');
+  background-repeat: no-repeat;
+  animation: play 2s steps(20) infinite;  
+}
+
+.mascotRun {
+  width: 128px;
+  height: 128px;
+  background-image: url('/mascot/bunny_run.png');
+  background-repeat: no-repeat;
+  animation: playRun 1s steps(10) infinite;
+}
+@keyframes play {
+  from { background-position: 0px; }
+  to   { background-position: -1920px; } /* 64px × 11 frames */
+}
+@keyframes playRun {
+  from { background-position: 0px; }
+  to   { background-position: -1280px; } /* 64px × 11 frames */
+}
